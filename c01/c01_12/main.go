@@ -27,3 +27,12 @@ func main() {
 //3.如果变量名、函数名、常量名首字母大写，则可以被其他的包访问;如果首字母小写，则只能
 //在本包中使用 ( 注:可以简单的理解成，首字母大写是公开的，首字母小写是私有的) 
 //在 golang 没有 public , private 等关键字。
+
+//系统保留关键字
+//break default func interface select case defer go map struct chan else goto package switch
+//const fallthrough if range type continue for import return var
+
+//系统预定义标识符
+//append bool byte cap close complex complex64 complex128 uint16 copy false float32 float64 imag
+//int8 int16 uint32 int32 int64 iota len make new nil panic uint64 print println real recover
+//string true uint unit8 uintprt 
