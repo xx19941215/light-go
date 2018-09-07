@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,6 +22,47 @@ type Cat struct {
 	Age int
 	Color string
 	Hobby string
+}
+
+type Person struct {
+	Name string
+	Age int
+}
+
+type Point struct {
+	x int
+	y int
+}
+
+type Reat struct {
+	leftUp, rightDown Point
+}
+
+type Reat2 struct {
+	leftUp, rightDown *Point
+}
+
+type A struct {
+	Num int
+}
+
+type B struct {
+	Num int
+}
+
+type Student struct {
+	Name string
+	Age int
+}
+
+type integer int
+
+type Stu Student
+
+type Monster struct {
+	Name string `json:"name"` //`json:"name"`就是struct tag
+	Age int `json:"age"`
+	Skill string `json:"skill"`
 }
 
 func main() {
@@ -60,11 +102,65 @@ func main() {
 	//第 3 种和第 4 种方式返回的是 结构体指针。
 	//结构体指针访问字段的标准方式应该是:(*结构体指针).字段名 ，比如 (*person).Name = "tom"
 	//但 go 做了一个简化，也支持 结构体指针.字段名, 比如 person.Name = "tom"。更加符合程序员
- 	//使用的习惯，go 编译器底层 对 person.Name 做了转化 (*person).Name。
+	//使用的习惯，go 编译器底层 对 person.Name 做了转化 (*person).Name。
+	 
+	var p1 Person
+	p1.Age = 10
+	p1.Name = "Tom"
 
+	var p3 *Person = &p1
+	fmt.Println((*p3).Age)
+	fmt.Println(p3.Age)
+	p3.Name = "Tony"
+	fmt.Printf("p3.name=%v,p1.name=%v\n", p3.Name, p1.Name)//Tony Tony
+	fmt.Printf("p3.name=%v,p3.name=%v\n", (*p3).Name, p1.Name) //Tony Tony
+
+	fmt.Printf("p1的地址%p\n", &p1)
+	fmt.Printf("p3的地址%p, p3的值%p\n", &p3, p3)
+
+	//结构体的所有字段在内存中是连续的
+	r1 := Reat{Point{1, 2}, Point{3, 4}}
+	fmt.Printf(
+		"r1.leftUp.x 地址=%p r1.leftUp.y 地址=%p, r1.rightDown.x 地址=%p r1.rightDown.y 地址=%p\n",
+		&r1.leftUp.x, &r1.leftUp.y, &r1.rightDown.x, &r1.rightDown.y)
+
+
+	//r2有两个 *Point类型，这两个*Point类型本身的地址是连续的。但是他们指向的地址不一定是连续的。
+	r2 := Reat2{&Point{10,20}, &Point{30,40}}
+	fmt.Printf("r2.leftUp 本身的地址是=%p r2.rightDown 本身的地址是%p\n", &r2.leftUp, &r2.rightDown)
 	
+	fmt.Printf("r2 .leftUp指向的地址是=%p, r2.rightDown指向的地址是=%p\n", r2.leftUp, r2.rightDown)
+
+	//结构体是用户单独定义的类型，和其它类型进行转换时需要有完全相同的字段(名字、个数和类 型)
+	var a A
+	var b B
+
+	a = A(b) //可以转换，但是有要求，就是结构体的字段要求完全一样，名字、个数和类型
+	fmt.Println(a, b)
+
+	//结构体进行 type 重新定义(相当于取别名)，Golang 认为是新的数据类型，但是相互间可以强转
+	var stu2 Student
+	var stu3 Stu
+	stu3 = Stu(stu2) //不可以 stu3 = stu2
+	fmt.Println(stu2, stu3)
+
+	var i integer = 10
+	var j int = 20
+	j = int(i) // 不可以使用 j = i
+
+	fmt.Println(i, j)
+
+	//struct 的每个字段上，可以写上一个 tag, 该 tag 可以通过反射机制获取，常见的使用场景就是序列化和反序列化。
+	monster := Monster{"牛魔王", 500, "芭蕉扇"}
+	//将monster序列化为json字符串
+	jsonStr, err := json.Marshal(monster)
 	
-	
+	if err != nil {
+		fmt.Println("处理错误")
+	}
+
+	fmt.Println("jsonStr", string(jsonStr))
+
 
 }
 
@@ -89,5 +185,6 @@ func main() {
 //布尔类型是 false ，数值是 0 ，字符串是 ""。
 //数组类型的默认值和它的元素类型相关，比如 score [3]int 则为[0, 0, 0]
 //指针，slice，和 map 的零值都是 nil ，即还没有分配空间。
-//不同结构体变量的字段是独立，互不影响，一个结构体变量字段的更改，不影响另外一个, 结构体是值类型。
+//4.不同结构体变量的字段是独立，互不影响，一个结构体变量字段的更改，不影响另外一个, 结构体是值类型。
+
 
