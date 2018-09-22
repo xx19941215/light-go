@@ -116,3 +116,22 @@
 [5.5 Go解析命令行参数](c05/c05_5/main.go)
 
 [5.6 Go单元测试](c05/c05_6/main.go)
+
+#### 第六章 Go goroutine 和 channel
+
+[6.1 Go goroutine](c06/c06_1/main.go)
+
+[6.2 Go channel简介](c06/c06_2/main.go)
+
+[6.3 Go channel细节说明](c06/c06_3/main.go)
+
+[6.4 Go channel读写案例](c06/c06_4/main.go)
+
+[6.5 Go 求素数](c06/c06_5/main.go)
+
+[6.6 Go 只读只写channel](c06/c06_6/main.go)
+
+[6.7 Go goroutine中的panic捕获](c06/c06_7/main.go)
+
+
+
