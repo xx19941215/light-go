@@ -59,3 +59,22 @@ open ~/.gitconfig
 [https]
   proxy = socks5://127.0.0.1:1086
 ```
+
+## 使用VSCode安装Go插件包
+
+在插件包上搜索 go ，找到下述描述的包进行安装
+
+Rich Go language support for Visual Studio Code
+
+---
+## 安装delve调试工具
+
+```
+go get -u github.com/derekparker/delve/cmd/dlv
+```
+
+支持在 `vscode` 中按 `F5` 启动断点调试
+
+## 注意
+
+安装过程需要多个依赖包，可能需要多次重启 `vscode`
